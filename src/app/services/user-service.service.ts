@@ -1,14 +1,24 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { UserDto } from 'src/task-api/models/user-dto';
+import { CategoryServiceService } from './category-service.service';
+import { Router } from '@angular/router';
 
 @Injectable({
 providedIn: 'root'
 })
 export class UserServiceService {
-    public loggedUser: UserDto|null = null;
+    private loggedUser: UserDto|null = null;
+    public onLoginComplete = new EventEmitter();
+    public onUserUpdate = new EventEmitter();
+    public onUserRegistered = new EventEmitter();
 
-    constructor(private httpClient: HttpClient) {}
+    constructor(
+        private httpClient: HttpClient,
+        public categoryService: CategoryServiceService,
+        public router: Router,
+    ) {}
 
     getLoggedUser() {
         if(this.loggedUser !== null && this.loggedUser !== undefined) {
@@ -18,19 +28,34 @@ export class UserServiceService {
         return null;
     }
 
-    getUsers() {
-        console.log("Getting users...");
-
-        let root = 'http://localhost:8080/api/v1/user/1';
-        return this.httpClient.get(root);
-
-        // .pipe(map((res: any) => this.user = res["firstName"]));
-        
+    logIn(userDto: UserDto) {
+        this.httpClient.post('http://localhost:8080/api/v1/auth/', userDto).subscribe(data => {
+            this.loggedUser = data;
+            this.categoryService.getAllByUser(this.loggedUser.id!);
+            this.onLoginComplete.emit();
+        });
     }
 
-    getUser(userDto: UserDto) {
-        console.log("Getting user...");
-
-        return this.httpClient.post('http://localhost:8080/api/v1/auth/', userDto);
+    logout() {
+        this.loggedUser = null;
+        this.router.navigate(['login']);
     }
+
+    saveUser(userDto: UserDto) {
+        this.httpClient.post('http://localhost:8080/api/v1/user/', userDto).subscribe(data => {
+            this.loggedUser = data;
+            // this.onUserUpdate.emit();
+        });
+    }
+
+    registerUser(userDto: UserDto) {
+        this.httpClient.post('http://localhost:8080/api/v1/user/', userDto).subscribe(data => {
+            this.loggedUser = data;
+            // this.onUserUpdate.emit();
+        });
+    }
+    // .subscribe(data => {
+    //     this.userDto = data;
+    //     this.router.navigate(['todo-list']);
+    //   });
 }

@@ -5,6 +5,6 @@ export interface CategoryDto {
     id?: number;
     name?: string;
     description?: string;
-    user?: UserDto;
+    user?: UserDto | null;
     tasks?: Array<TaskDto>;
 }

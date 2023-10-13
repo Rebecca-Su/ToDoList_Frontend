@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CategoryDto } from 'src/task-api/models/category-dto';
 import { UserServiceService } from '../services/user-service.service';
+import { CategoryServiceService } from '../services/category-service.service';
 
 @Component({
   selector: 'app-task-list',
@@ -8,9 +9,16 @@ import { UserServiceService } from '../services/user-service.service';
   styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent {
-  // public categories: CategoryDto[];
+  public categories: CategoryDto[] = [];
 
   constructor(
-    public userService : UserServiceService,
-  ) {}
+    public categoryService: CategoryServiceService,
+    public userService: UserServiceService
+  ) { }
+
+  ngOnInit() {
+    this.categoryService.onUserCategoriesUpdate.subscribe(_ => {
+      this.categories = this.categoryService.getUserCategories()
+    });
+  }
 }

@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { UserServiceService } from "../services/user-service.service";
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
-import { Observable } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class UserGuard {
@@ -11,7 +10,7 @@ export class UserGuard {
     ) {}
 
     canActivate(){
-        if(this.userService.loggedUser && this.userService.loggedUser.id) {
+        if(this.userService.getLoggedUser()) {
             return true;
         }
 

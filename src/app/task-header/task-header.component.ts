@@ -16,33 +16,31 @@ export class TaskHeaderComponent {
     public userService: UserServiceService
     ) { }
 
-  ngOnInit() {
-    console.log("Task header loaded");
-  }
-
   menuButtonClick() {
     this.onMenuButtonClick.emit();
   }
 
-  goToHome() {
-    // this.router.navigate(['todo-list']);
-  }
-
-  addTodoClick() {
-    // this.router.navigate(['todo-list', 'new']);
+  addTaskClick() {
+    this.router.navigate(['task-list', 'new']);
   }
 
   addCategoryClick() {
-    // this.router.navigate(['categories', 'new']);
+    this.router.navigate(['categories', 'new']);
   }
 
   goToProfile() {
-    // this.router.navigate(['profile']);
+    this.router.navigate(['profile']);
+  }
+
+  goToHome() {
+    this.router.navigate(['task-list']);
   }
 
   logout() {
-    // this.userService.loggedUser = null;
-    // localStorage.setItem('loggedUser', null);
-    // this.router.navigate(['login']);
+    this.userService.logout();
+  }
+
+  getUserFirstName() {
+    return this.userService.getLoggedUser()!.firstName!;
   }
 }
