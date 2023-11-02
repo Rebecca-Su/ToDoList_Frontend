@@ -19,7 +19,8 @@ export class AppComponent {
   ) {}
 
   toggleMenuClick() {
-    this.sidenav.toggle;
+    console.log("Toggled");
+    this.sidenav.toggle();
   }
 
   isUserLogged() {

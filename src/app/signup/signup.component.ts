@@ -22,10 +22,10 @@ export class SignupComponent {
   }
 
   updateUser() {
-    this.userService.saveUser(this.userDto);
+    this.userService.registerUser(this.userDto);
   }
 
-  login() {
+  exit() {
     this.router.navigate(['login']);
   }
 }

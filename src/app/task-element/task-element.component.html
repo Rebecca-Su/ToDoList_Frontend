@@ -12,10 +12,10 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button *ngIf="!taskDto.favorite" (click) = "addToFavorite()">
+      <button mat-button *ngIf="!taskDto.important" (click) = "addToFavorite()">
         <mat-icon>favorite_border</mat-icon>
       </button>
-      <button mat-button *ngIf="taskDto.favorite" color="warn" (click)="removeFromFavorite()">
+      <button mat-button *ngIf="taskDto.important" color="warn" (click)="removeFromFavorite()">
         <mat-icon>favorite</mat-icon>
       </button>
       <button mat-button style="color: green;" *ngIf="taskDto.done" (click) = "setUnDone()">

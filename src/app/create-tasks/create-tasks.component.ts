@@ -3,7 +3,7 @@ import { TaskDto } from 'src/task-api/models/task-dto';
 import { CategoryServiceService } from '../services/category-service.service';
 import { TaskServiceService } from '../services/task-service.service';
 import { UserServiceService } from '../services/user-service.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryDto } from 'src/task-api/models/category-dto';
 
 @Component({
@@ -16,6 +16,7 @@ export class CreateTasksComponent {
   public taskDto: TaskDto = {
     category: { id: 0}
   };
+  public taskId = null;
 
   public categories: CategoryDto[] = [];
 
@@ -24,24 +25,38 @@ export class CreateTasksComponent {
     public taskService: TaskServiceService,
     public userService: UserServiceService,
     public router: Router,
+    public activatedRoute: ActivatedRoute,
   ) {
   }
 
   ngOnInit() {
-    this.categories = this.categoryService.getUserCategories();
-
-    this.categoryService.onUserCategoriesUpdate.subscribe(_ => {
+    this.categoryService.onUserCategoriesUpdate.subscribe(_ => 
+    {
       this.categories = this.categoryService.getUserCategories()
     });
+
+    this.taskService.onGetTaskDone.subscribe(data => 
+    {
+      this.taskDto = data;
+    })
+
+    this.categories = this.categoryService.getUserCategories();
+    this.resolveTaskDto();
+  }
+
+  //get from fetched instead of fetching again.
+  resolveTaskDto() {
+    this.taskId = this.activatedRoute.snapshot.params['taskId'];
+    if (this.taskId) {
+      this.taskService.getById(this.taskId);
+    }
   }
 
   saveTask() {
     this.errors = [];
     this.taskDto.category!.user = this.userService.getLoggedUser()!;
     this.taskService.save(this.taskDto)
-    .subscribe(_ => {
-      this.router.navigate(['task-list']);
-    });
+    this.router.navigate(['task-list']);
   }
 
   cancel() {

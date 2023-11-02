@@ -17,6 +17,8 @@ export class TaskListComponent {
   ) { }
 
   ngOnInit() {
+    this.categoryService.getAllByUser(this.userService.getLoggedUser()!.id!);
+
     this.categoryService.onUserCategoriesUpdate.subscribe(_ => {
       this.categories = this.categoryService.getUserCategories()
     });

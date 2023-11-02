@@ -16,7 +16,6 @@ export class UserServiceService {
 
     constructor(
         private httpClient: HttpClient,
-        public categoryService: CategoryServiceService,
         public router: Router,
     ) {}
 
@@ -31,7 +30,6 @@ export class UserServiceService {
     logIn(userDto: UserDto) {
         this.httpClient.post('http://localhost:8080/api/v1/auth/', userDto).subscribe(data => {
             this.loggedUser = data;
-            this.categoryService.getAllByUser(this.loggedUser.id!);
             this.onLoginComplete.emit();
         });
     }
@@ -42,16 +40,14 @@ export class UserServiceService {
     }
 
     saveUser(userDto: UserDto) {
-        this.httpClient.post('http://localhost:8080/api/v1/user/', userDto).subscribe(data => {
+        this.httpClient.put('http://localhost:8080/api/v1/user/', userDto).subscribe(data => {
             this.loggedUser = data;
-            // this.onUserUpdate.emit();
         });
     }
 
     registerUser(userDto: UserDto) {
         this.httpClient.post('http://localhost:8080/api/v1/user/', userDto).subscribe(data => {
-            this.loggedUser = data;
-            // this.onUserUpdate.emit();
+            this.router.navigate(['login']);
         });
     }
     // .subscribe(data => {

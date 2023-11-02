@@ -22,6 +22,10 @@ export class TaskElementComponent {
 
   ngOnInit() {
     this.setUpTask();
+    this.taskService.onTasksUpdate.subscribe(data => 
+      {
+        this.setUpTask();
+      });
   }
 
   setUpTask() {
@@ -30,12 +34,12 @@ export class TaskElementComponent {
   }
 
   addToFavorite() {
-    this.taskDto.favorite = true;
+    this.taskDto.important = true;
     this.saveTask();
   }
 
   removeFromFavorite() {
-    this.taskDto.favorite = false;
+    this.taskDto.important = false;
     this.saveTask();
   }
 
@@ -50,12 +54,7 @@ export class TaskElementComponent {
   }
 
   saveTask() {
-    this.setUpTask();
-    this.taskService.save(this.taskDto)
-      .subscribe(data => {
-        this.taskDto = data;
-        this.setUpTask();
-      });
+    this.taskService.save(this.taskDto);
   }
 
   editTask(taskId: number|undefined) {

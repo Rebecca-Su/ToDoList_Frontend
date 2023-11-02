@@ -17,6 +17,7 @@ export class TaskHeaderComponent {
     ) { }
 
   menuButtonClick() {
+    console.log("Menu clicked")
     this.onMenuButtonClick.emit();
   }
 

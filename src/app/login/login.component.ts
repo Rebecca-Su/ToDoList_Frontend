@@ -24,13 +24,16 @@ export class LoginComponent {
 
   ngOnInit() {
     this.userService.onLoginComplete.subscribe(_ => {
-        // this.categoryService.getAllByUser(this.userService.getLoggedUser()!.id!);
         this.router.navigate(['task-list']);
     });
   }
 
   login() {
     this.userService.logIn(this.userDto);
+  }
+
+  signup() {
+    this.router.navigate(['signup']);
   }
 
   isUserLogged() {

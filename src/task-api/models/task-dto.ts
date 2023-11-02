@@ -6,6 +6,6 @@ export interface TaskDto {
     description?: string;
     startTime?: string;
     done?: boolean;
-    favorite?: boolean;
+    important?: boolean;
     category?: CategoryDto;
 }
