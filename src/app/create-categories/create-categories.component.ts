@@ -26,6 +26,17 @@ export class CreateCategoriesComponent {
     {
       this.categoryDto = data;
     })
+
+    this.categoryService.onUserCategoriesUpdateFail.subscribe(error => 
+    {
+      console.log(error);
+      this.errors = error.error.errors ? error.error.errors : error.message;
+    })
+
+    this.categoryService.onUserCategoriesUpdateSuccess.subscribe(_ => 
+    {
+      this.router.navigate(['task-list']);
+    })
     
     this.resolveCategoryDto();
   }
@@ -41,9 +52,7 @@ export class CreateCategoriesComponent {
   saveCategory() {
     this.errors = [];
     this.categoryDto.user = this.userService.getLoggedUser();
-    this.categoryService.save(this.categoryDto);
-    this.router.navigate(['task-list']);
-  
+    this.categoryService.save(this.categoryDto);  
   }
 
   cancel() {

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CategoryDto } from 'src/task-api/models/category-dto';
 import { UserServiceService } from '../services/user-service.service';
 import { CategoryServiceService } from '../services/category-service.service';
+import { TaskServiceService } from '../services/task-service.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
@@ -9,18 +11,33 @@ import { CategoryServiceService } from '../services/category-service.service';
   styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent {
-  public categories: CategoryDto[] = [];
+  public categories: CategoryDto[] | null = null;
+  public isToday: boolean = false;
 
   constructor(
     public categoryService: CategoryServiceService,
-    public userService: UserServiceService
+    public userService: UserServiceService,
+    public taskService: TaskServiceService,
+    public activatedRouter: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.categoryService.getAllByUser(this.userService.getLoggedUser()!.id!);
+    this.resolveTimeParameters();
 
-    this.categoryService.onUserCategoriesUpdate.subscribe(_ => {
-      this.categories = this.categoryService.getUserCategories()
+    this.categoryService.onUserCategoriesUpdateSuccess.subscribe(_ => {
+      console.log(this.categories);
+      this.categories = this.categoryService.getUserCategories();
     });
+  }
+
+  resolveTimeParameters() {
+    const dateTime = this.activatedRouter.snapshot.params["start"];
+    if (dateTime && dateTime === 'today') {
+      this.isToday = true;
+      this.categoryService.getAllForToday(this.userService.getLoggedUser()!.id!);
+    } else {
+      this.isToday = false;
+      this.categoryService.getAllByUser(this.userService.getLoggedUser()!.id!);
+    }
   }
 }

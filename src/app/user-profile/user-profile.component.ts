@@ -21,11 +21,17 @@ export class UserProfileComponent {
 
   ngOnInit(): void {
     this.userDto = {...this.userService.getLoggedUser()!};
+    this.userService.onUserUpdate.subscribe(_ => {
+      this.exit();
+    })
+
+    this.userService.onUserUpdateFail.subscribe(error => {
+      this.errors = error.error.errors ? error.error.errors : error.message;
+    })
   }
 
   updateUser() {
     this.userService.saveUser(this.userDto);
-    this.exit();
   }
 
   exit() {

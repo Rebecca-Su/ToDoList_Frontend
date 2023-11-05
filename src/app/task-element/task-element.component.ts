@@ -22,7 +22,7 @@ export class TaskElementComponent {
 
   ngOnInit() {
     this.setUpTask();
-    this.taskService.onTasksUpdate.subscribe(data => 
+    this.taskService.onTasksUpdateSuccess.subscribe(data => 
       {
         this.setUpTask();
       });

@@ -9,8 +9,9 @@ import { UserServiceService } from "./user-service.service";
   })
   export class CategoryServiceService {
     private userCategories: CategoryDto[] = [];
-    public onUserCategoriesUpdate = new EventEmitter();
+    public onUserCategoriesUpdateSuccess = new EventEmitter();
     public onGetCategory = new EventEmitter();
+    public onUserCategoriesUpdateFail = new EventEmitter();
 
     constructor(
         public httpClient: HttpClient,
@@ -18,17 +19,37 @@ import { UserServiceService } from "./user-service.service";
     ){}
 
     save(category: CategoryDto) {
-      return this.httpClient.post('http://localhost:8080/api/v1/category/', category).subscribe(data => 
-      {
-        this.getAllByUser(this.userService.getLoggedUser()!.id!);
+      return this.httpClient.post('http://localhost:8080/api/v1/category/', category).subscribe({
+        next: (data) => 
+        {
+          this.getAllByUser(this.userService.getLoggedUser()!.id!);
+        },
+        error: (error) => 
+        {
+          this.onUserCategoriesUpdateFail.emit(error);
+        }
       });
     }
 
     getAllByUser(userId: number) {
-      return this.httpClient.get<CategoryDto[]>('http://localhost:8080/api/v1/category/user=' + userId).subscribe((data: CategoryDto[]) => {
-        this.userCategories = data;
-        this.onUserCategoriesUpdate.emit();
-      });
+      return this.httpClient.get<CategoryDto[]>('http://localhost:8080/api/v1/category/user=' + userId).subscribe(
+        (data: CategoryDto[]) => 
+          {
+            this.userCategories = data;
+            this.onUserCategoriesUpdateSuccess.emit();
+          }
+      );
+    }
+
+    getAllForToday(userId: number) {
+      return this.httpClient.get<CategoryDto[]>('http://localhost:8080/api/v1/category/user=' + userId + "/today").subscribe(
+        (data: CategoryDto[]) => 
+          {
+            console.log(data);
+            this.userCategories = data;
+            this.onUserCategoriesUpdateSuccess.emit();
+          }
+      );
     }
 
     getById(categoryId: number) {

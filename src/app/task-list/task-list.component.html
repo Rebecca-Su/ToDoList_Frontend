@@ -1,6 +1,6 @@
 <div *ngIf="categories?.length == 0">
   <h4>No Tasks found!</h4>
-  <h4> Create a new Category to start !</h4>
+  <h4 *ngIf="!isToday"> Create a new Category to start !</h4>
 </div>
 <div class="mt-2 mb-2 mr-2 ml-2" *ngFor="let category of categories">
     <mat-accordion class="example-headers-align" multi>

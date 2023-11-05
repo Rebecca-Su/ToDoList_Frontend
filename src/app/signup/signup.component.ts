@@ -19,6 +19,13 @@ export class SignupComponent {
   ) { }
 
   ngOnInit(): void {
+    this.userService.onUserRegistered.subscribe(_ => {
+      this.router.navigate(['login']);
+    });
+
+    this.userService.onUserRegisterFail.subscribe(error => {
+      this.errors = error.error.errors ? error.error.errors : error.message;
+    })
   }
 
   updateUser() {

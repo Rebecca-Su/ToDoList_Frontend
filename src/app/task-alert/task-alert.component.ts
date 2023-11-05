@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-task-alert',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./task-alert.component.scss']
 })
 export class TaskAlertComponent {
-
+  @Input() content: string[] = [];
+  @Input() alertType = 'error';
 }

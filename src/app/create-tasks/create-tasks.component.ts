@@ -30,14 +30,21 @@ export class CreateTasksComponent {
   }
 
   ngOnInit() {
-    this.categoryService.onUserCategoriesUpdate.subscribe(_ => 
-    {
-      this.categories = this.categoryService.getUserCategories()
-    });
+    this.errors = [];
 
     this.taskService.onGetTaskDone.subscribe(data => 
     {
       this.taskDto = data;
+    })
+
+    this.taskService.onTasksUpdateSuccess.subscribe(_ => 
+    {
+      this.router.navigate(['task-list']);
+    })
+
+    this.taskService.onTaskUpdateFail.subscribe(error => 
+    {
+      this.errors = error.error.errors ? error.error.errors : error.message;
     })
 
     this.categories = this.categoryService.getUserCategories();
@@ -55,11 +62,11 @@ export class CreateTasksComponent {
   saveTask() {
     this.errors = [];
     this.taskDto.category!.user = this.userService.getLoggedUser()!;
-    this.taskService.save(this.taskDto)
-    this.router.navigate(['task-list']);
+    this.taskService.save(this.taskDto);
   }
 
   cancel() {
+    this.errors = [];
     this.router.navigate(['task-list']);
   }
 }

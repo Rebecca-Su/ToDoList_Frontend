@@ -12,7 +12,7 @@ import { CategoryServiceService } from '../services/category-service.service';
 export class LoginComponent {
   public userDto: UserDto = {};
   public hide = true;
-  public errors = [];
+  public errors: string[] = [];
   // public user: any;
   // public loaded: boolean = false;
 
@@ -26,6 +26,11 @@ export class LoginComponent {
     this.userService.onLoginComplete.subscribe(_ => {
         this.router.navigate(['task-list']);
     });
+    this.userService.onLoginFail.subscribe(error => 
+      {
+        console.log(error);
+        this.errors = [error.error.message ? error.error.message  : error.message];
+      })
   }
 
   login() {

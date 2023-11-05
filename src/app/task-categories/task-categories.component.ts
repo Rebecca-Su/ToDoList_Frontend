@@ -20,7 +20,7 @@ export class TaskCategoriesComponent {
 
   ngOnInit() {
     this.categories = this.categoryService.getUserCategories();
-    this.categoryService.onUserCategoriesUpdate.subscribe(_ => {
+    this.categoryService.onUserCategoriesUpdateSuccess.subscribe(_ => {
       this.categories = this.categoryService.getUserCategories();
     });
   }
