@@ -7,7 +7,7 @@
         <form class="example-form">
             <mat-form-field class="example-full-width">
                 <mat-label>Title</mat-label>
-                <input matInput placeholder="Title" [(ngModel)] = "taskDto.title" name="title">
+                <input matInput required placeholder="Title" [(ngModel)] = "taskDto.title" name="title">
             </mat-form-field>
             <mat-form-field class="example-full-width">
             <mat-label>Description</mat-label>
@@ -35,6 +35,10 @@
         <button  mat-raised-button color="primary" class="example-icon" (click) = "saveTask()">
             <mat-icon>save</mat-icon>
             &nbsp;Save
+        </button>
+        <button  mat-raised-button color="primary" class="example-icon" (click) = "deleteTask()">
+            <mat-icon>delete</mat-icon>
+            &nbsp;Delete
         </button>
         <button  mat-raised-button color="warn" class="example-icon" (click) = "cancel()">
             <mat-icon>clear</mat-icon>

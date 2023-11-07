@@ -9,6 +9,7 @@ import { UserServiceService } from "./user-service.service";
   })
   export class CategoryServiceService {
     private userCategories: CategoryDto[] = [];
+    private userCategoriesToday: CategoryDto[] = [];
     public onUserCategoriesUpdateSuccess = new EventEmitter();
     public onGetCategory = new EventEmitter();
     public onUserCategoriesUpdateFail = new EventEmitter();
@@ -45,8 +46,7 @@ import { UserServiceService } from "./user-service.service";
       return this.httpClient.get<CategoryDto[]>('http://localhost:8080/api/v1/category/user=' + userId + "/today").subscribe(
         (data: CategoryDto[]) => 
           {
-            console.log(data);
-            this.userCategories = data;
+            this.userCategoriesToday = data;
             this.onUserCategoriesUpdateSuccess.emit();
           }
       );
@@ -60,5 +60,9 @@ import { UserServiceService } from "./user-service.service";
 
     getUserCategories() {
       return this.userCategories;
+    }
+
+    getUserCategoriesToday() {
+      return this.userCategoriesToday;
     }
   }

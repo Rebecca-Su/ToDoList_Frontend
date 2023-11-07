@@ -33,8 +33,8 @@ export class UserServiceService {
     logIn(userDto: UserDto) {
         this.httpClient.post('http://localhost:8080/api/v1/auth/', userDto).subscribe({
             next: (data) => {
-            this.loggedUser = data;
-            this.onLoginComplete.emit();
+                this.loggedUser = data;
+                this.onLoginComplete.emit();
             }, 
             error: (error) => {
                 this.onLoginFail.emit(error);

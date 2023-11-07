@@ -44,7 +44,7 @@ export class CreateTasksComponent {
 
     this.taskService.onTaskUpdateFail.subscribe(error => 
     {
-      this.errors = error.error.errors ? error.error.errors : error.message;
+      this.errors = [error.error.errors ? error.error.errors : error.message];
     })
 
     this.categories = this.categoryService.getUserCategories();
@@ -63,6 +63,10 @@ export class CreateTasksComponent {
     this.errors = [];
     this.taskDto.category!.user = this.userService.getLoggedUser()!;
     this.taskService.save(this.taskDto);
+  }
+
+  deleteTask() {
+    //deletetask
   }
 
   cancel() {

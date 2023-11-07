@@ -10,7 +10,7 @@ import { UserServiceService } from '../services/user-service.service';
   styleUrls: ['./create-categories.component.scss']
 })
 export class CreateCategoriesComponent {
-  public errors = [];
+  public errors: string[] = [];
   public categoryDto: CategoryDto = {};
   public categoryId = null;
 
@@ -30,7 +30,7 @@ export class CreateCategoriesComponent {
     this.categoryService.onUserCategoriesUpdateFail.subscribe(error => 
     {
       console.log(error);
-      this.errors = error.error.errors ? error.error.errors : error.message;
+      this.errors = [error.error.errors ? error.error.errors : error.message];
     })
 
     this.categoryService.onUserCategoriesUpdateSuccess.subscribe(_ => 

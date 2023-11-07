@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class SignupComponent {
   public userDto: UserDto = {};
   public hide = true;
-  public errors = [];
+  public errors: string[] = [];
 
   constructor(
     public userService: UserServiceService,
@@ -24,7 +24,7 @@ export class SignupComponent {
     });
 
     this.userService.onUserRegisterFail.subscribe(error => {
-      this.errors = error.error.errors ? error.error.errors : error.message;
+      this.errors = [error.error.errors ? error.error.errors : error.message];
     })
   }
 

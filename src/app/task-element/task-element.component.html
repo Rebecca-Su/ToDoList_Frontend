@@ -1,17 +1,49 @@
-<mat-card class="example-card mb-2">
+<mat-card>
     <mat-card-header>
-      <div mat-card-avatar class="example-header-image" orange600></div>
-      <mat-card-title>
-        {{taskDto.title}}
-      </mat-card-title>
-      <mat-card-subtitle>{{taskDto.startTime}}</mat-card-subtitle>
+      <div mat-card-avatar orange600></div>
+      <mat-card-title-group>
+        <div layout="column">
+          <div *ngIf="taskDto.done"><s>{{taskDto.title}}</s></div>
+          <div *ngIf="!taskDto.done">{{taskDto.title}}</div>
+          <div *ngIf="taskDto.startTime">{{taskDto.startTime}}</div>
+          <div>{{taskDto.description}}</div>
+        </div>
+        <span class="spacer"></span>
+        <ng-container matSuffix>
+          <button mat-button *ngIf="!taskDto.important" (click) = "addToFavorite()">
+            <mat-icon>favorite_border</mat-icon>
+          </button>
+          <button mat-button *ngIf="taskDto.important" color="warn" (click)="removeFromFavorite()">
+            <mat-icon>favorite</mat-icon>
+          </button>
+          <button mat-button style="color: green;" *ngIf="taskDto.done" (click) = "setUnDone()">
+            <mat-icon>check_circle</mat-icon>
+          </button>
+          <button mat-button  *ngIf="!taskDto.done" (click) = "setDone()">
+            <mat-icon>radio_button_unchecked</mat-icon>
+          </button>
+          <div style="float: right;">
+            <button mat-button (click) = "editTask(taskDto.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+        </ng-container>
+      </mat-card-title-group>
     </mat-card-header>
-    <mat-card-content>
-      <p>
-        {{taskDto.description}}
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
+</mat-card>
+
+
+<!-- <mat-grid-list cols="2" rowHeight="1:1">
+  <mat-grid-tile>
+    <div layout="column">
+      <div *ngIf="taskDto.done"><s>{{taskDto.title}}</s></div>
+      <div *ngIf="!taskDto.done">{{taskDto.title}}</div>
+      <div *ngIf="taskDto.startTime">{{taskDto.startTime}}</div>
+      <div>{{taskDto.description}}</div>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <ng-container style="float: right;">
       <button mat-button *ngIf="!taskDto.important" (click) = "addToFavorite()">
         <mat-icon>favorite_border</mat-icon>
       </button>
@@ -24,10 +56,11 @@
       <button mat-button  *ngIf="!taskDto.done" (click) = "setDone()">
         <mat-icon>radio_button_unchecked</mat-icon>
       </button>
-      <div style="float: right;">
+      <div>
         <button mat-button (click) = "editTask(taskDto.id)">
           <mat-icon>edit</mat-icon>
         </button>
       </div>
-    </mat-card-actions>
-</mat-card>
+    </ng-container>
+  </mat-grid-tile>
+</mat-grid-list> -->

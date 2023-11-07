@@ -24,9 +24,9 @@ export class TaskListComponent {
   ngOnInit() {
     this.resolveTimeParameters();
 
-    this.categoryService.onUserCategoriesUpdateSuccess.subscribe(_ => {
-      console.log(this.categories);
-      this.categories = this.categoryService.getUserCategories();
+    //change it, tasks and tasks today should not be handled this way.
+    this.categoryService.onUserCategoriesUpdateSuccess.subscribe(data => {
+      this.categories = this.isToday ? this.categoryService.getUserCategoriesToday() : this.categoryService.getUserCategories();
     });
   }
 

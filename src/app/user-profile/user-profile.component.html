@@ -7,23 +7,23 @@
         <form class="example-form">
             <mat-form-field class="example-full-width">
                 <mat-label>First name</mat-label>
-                <input matInput placeholder="First name" [(ngModel)] = "userDto.firstName" name="firstName">
+                <input matInput required placeholder="First name" [(ngModel)] = "userDto.firstName" name="firstName">
             </mat-form-field>
             <mat-form-field class="example-full-width">
                 <mat-label>Last name</mat-label>
-                <input matInput placeholder="Last name" [(ngModel)] = "userDto.lastName" name="lastName">
+                <input matInput required placeholder="Last name" [(ngModel)] = "userDto.lastName" name="lastName">
             </mat-form-field>
             <mat-form-field class="example-full-width">
                 <mat-label>User name</mat-label>
-                <input matInput placeholder="User name" [(ngModel)] = "userDto.userName" name="userName">
+                <input matInput required placeholder="User name" [(ngModel)] = "userDto.userName" name="userName">
             </mat-form-field>
             <mat-form-field class="example-full-width">
                 <mat-label>Email</mat-label>
-                <input matInput placeholder="Email" [(ngModel)] = "userDto.email" name="email">
+                <input matInput required placeholder="Email" [(ngModel)] = "userDto.email" name="email">
             </mat-form-field>
             <mat-form-field class="example-full-width">
                 <mat-label>Password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" [(ngModel)] = "userDto.password" name="password">
+                <input matInput required [type]="hide ? 'password' : 'text'" placeholder="Password" [(ngModel)] = "userDto.password" name="password">
                 <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>

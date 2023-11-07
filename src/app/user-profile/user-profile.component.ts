@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class UserProfileComponent {
   public userDto: UserDto = {};
   public hide = true;
-  public errors = [];
+  public errors : string[] = [];
 
 
   constructor(
@@ -26,7 +26,7 @@ export class UserProfileComponent {
     })
 
     this.userService.onUserUpdateFail.subscribe(error => {
-      this.errors = error.error.errors ? error.error.errors : error.message;
+      this.errors = [error.error.errors ? error.error.errors : error.message];
     })
   }
 
